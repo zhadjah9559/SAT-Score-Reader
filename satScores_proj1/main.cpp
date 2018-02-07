@@ -2,7 +2,9 @@
 #include <iostream>
 #include <iomanip> 
 #include <string>
+#include <fstream>
 #include <cmath>
+#include <cctype>
 
 using namespace std;
 
@@ -11,11 +13,21 @@ int main()
     int sat[10][2], mathAvg, verbAvg;
     double mathStd, verbStd;
     
-    describe_programs();
-    read_scores(int sat[10][2]);
-    compute_means(sat[10][2], mathAvg, verbAvg);
-    compute_std(sat[10][2], mathAvg, verbAvg,  mathStd, verbStd);
-    show_results(sat[10][2], mathAvg, verbAvg, mathStd, verbStd);
+    void describe_program();
+    void read_scores(int sat[10][2]);
+    void compute_means(int sat[10][2], int& mathAvg, int& verbAvg);
+    void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, double& verbStd) ;
+    void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd,  double verbstd);
+    bool again();
+
+    
+    describe_program();
+    read_scores(sat);
+    compute_means(sat, mathAvg, verbAvg);
+    compute_std(sat, mathAvg, verbAvg,  mathStd, verbStd);
+    //show_results(sat, mathAvg, verbAvg, mathStd, verbStd);
+    //again();
+
     
     return 0;
 }
@@ -25,18 +37,19 @@ void describe_program()
     
 }
 
-//===============================remember to Ask professor if read score will pass value or reference
 void read_scores(int sat[10][2])
 {
     for(int i = 0; i<10;i++)
     {
         for(int j = 0; j<2; j++)
         {
-            if(j == 0)
-                cout>>"Enter Math score below:\n";
+            if(j == 0){
+                cout<<"Enter Math score below:"<<endl;
+            }
                 
-            else
-                cout>>"Enter Verbal Score below:\n";
+            else{
+                cout<<"Enter Verbal Score below:"<<endl;
+            }
                    
             cin>>sat[i][j];  
         }
@@ -72,7 +85,7 @@ void compute_means(int sat[10][2], int& mathAvg, int& verbAvg)
     verbAvg = verbScoreSum / verbCount;
 }
 
-void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd double& verbStd) 
+void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, double& verbStd) 
 {
     double mathVariance = 0;
     double verbVariance = 0;
@@ -97,9 +110,10 @@ void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd double
     }
 }
 
-void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd,
+/*void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd,
  double verbstd)
 {
+    ofstream outs;
     outs>>"Table of SAT Scores:\n";
     outs>>"Math   Verbal\n";
     
@@ -112,27 +126,22 @@ void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd,
                     
                 }
             }
-}
+}*/
 
-bool again()
+/*bool again()
 {
-    bool again()
+    char response;
+    do
     {
-	char response;
-
-	do
-	{
-		cout<<"\nDo you wish to run this program again (Y or N)?\n";
-		cin>>response;
-		response = toupper(response);
-		if(response!='Y' && response!= 'N')
-	            cout<<"Illegal response! Answer Y for Yes, N for No.\n";
-	}while(response!='Y' && response!='N');
-	    if(response == 'Y')
-		return true;
-	else
-	    return false;
-    }
-
-}
+            cout<<"\nDo you wish to run this program again (Y or N)?\n";
+            cin>>response;
+            response = toupper(response);
+            if(response!='Y' && response!= 'N')
+                cout<<"Illegal response! Answer Y for Yes, N for No.\n";
+    }while(response!='Y' && response!='N');
+        if(response == 'Y')
+            return true;
+    else
+        return false;    
+}*/
 
