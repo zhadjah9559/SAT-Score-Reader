@@ -2,10 +2,13 @@
  Zachary Hadjah                    February 9th 2018
  Junior Year                       Data Structures/ Algorithm Analysis
   
- This program reads the scores of 10 students SAT scores. It reads the math
- and verbal sections of the SAT test, putting the math scores in the right column,
- and the verbal scores in the left column. It will also compute the the average 
- * of all the math averages and verbal averages.
+ This program reads the scores of 10 students SAT scores. 
+ 
+ * compute_means() will compute the averages of all ten tests for both subjects
+ * compute_std() will compute the standard deviation of all ten tests for both 
+   subjects
+ * show_results() will display the results to the user in a tabular format and 
+   then send the scores to the scores.txt file. 
  =============================================================================*/
 #include <cstdlib>
 #include <iostream>
@@ -17,6 +20,10 @@
 
 using namespace std;
 
+/**
+ * 
+ * @return 0
+ */
 int main() 
 {
     int sat[10][2], mathAvg, verbAvg;
@@ -30,7 +37,9 @@ int main()
     bool again();
 
     describe_program();
-    do{
+    
+    do
+    {
     read_scores(sat);
     compute_means(sat, mathAvg, verbAvg);
     compute_std(sat, mathAvg, verbAvg,  mathStd, verbStd);
@@ -39,6 +48,9 @@ int main()
     return 0;
 }
 
+/**
+ * 
+ */
 void describe_program()
 {
     cout<<"This program reads SAT scores from 10 students (Math and verbal scores)"
@@ -49,7 +61,10 @@ void describe_program()
         <<"be sent to text file."<<endl; 
 }
 
-
+/**
+ * 
+ * @param sat
+ */
 void read_scores(int sat[10][2])
 {
     for(int i = 0; i<10;i++)
@@ -68,6 +83,12 @@ void read_scores(int sat[10][2])
     }
 }
 
+/**
+ * 
+ * @param sat
+ * @param mathAvg
+ * @param verbAvg
+ */
 void compute_means(int sat[10][2], int& mathAvg, int& verbAvg)
 {
     int mathScoreSum =0;
@@ -94,7 +115,14 @@ void compute_means(int sat[10][2], int& mathAvg, int& verbAvg)
     verbAvg = verbScoreSum / verbCount;
 }
 
-
+/**
+ * 
+ * @param sat
+ * @param mathAvg
+ * @param verbAvg
+ * @param mathStd
+ * @param verbStd
+ */
 void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, double& verbStd) 
 {
     double mathVariance = 0;
@@ -104,7 +132,6 @@ void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, doubl
     {
         for(int j = 0; j<2; j++)
         {
-              
             if(j==0){
                 mathVariance += ::pow((sat[i][j] - mathAvg), 2);
             }
@@ -119,7 +146,14 @@ void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, doubl
     }
 }
 
-
+/**
+ * 
+ * @param sat
+ * @param mathAvg
+ * @param verbAvg
+ * @param mathStd
+ * @param verbStd
+ */
 void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd, double verbStd)
 { 
     cout<<fixed<<showpoint<<setprecision(1);
@@ -137,9 +171,7 @@ void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd, doub
     }
     cout<<"MEAN"<<setw(9)<<mathAvg<<setw(13)<<verbAvg<<endl;
     cout<<"STD"<<setw(10)<<mathStd<<setw(13)<<verbStd;
-    
-    
-    
+       
     ofstream outs;
     outs.open("scores.txt",ios::app);
     
@@ -161,6 +193,10 @@ void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd, doub
     outs.close(); 
 }
 
+/**
+ * 
+ * @return Bool variable
+ */
 bool again()
 {
     char response;
