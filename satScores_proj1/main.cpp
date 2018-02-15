@@ -17,10 +17,6 @@
 
 using namespace std;
 
-/**
- * 
- * @return 0
- */
 int main() 
 {
     int sat[10][2], mathAvg, verbAvg;
@@ -34,17 +30,15 @@ int main()
     bool again();
 
     describe_program();
+    do{
     read_scores(sat);
     compute_means(sat, mathAvg, verbAvg);
     compute_std(sat, mathAvg, verbAvg,  mathStd, verbStd);
-    //show_results(sat, mathAvg, verbAvg, mathStd, verbStd);
-    //again();
+    show_results(sat, mathAvg, verbAvg, mathStd, verbStd);
+    }while(again());
     return 0;
 }
 
-/*
- * 
- */
 void describe_program()
 {
     cout<<"This program reads SAT scores from 10 students (Math and verbal scores)"
@@ -55,10 +49,7 @@ void describe_program()
         <<"be sent to text file."<<endl; 
 }
 
-/**
- * 
- * @param sat
- */
+
 void read_scores(int sat[10][2])
 {
     for(int i = 0; i<10;i++)
@@ -77,12 +68,6 @@ void read_scores(int sat[10][2])
     }
 }
 
-/**
- * 
- * @param sat
- * @param mathAvg
- * @param verbAvg
- */
 void compute_means(int sat[10][2], int& mathAvg, int& verbAvg)
 {
     int mathScoreSum =0;
@@ -90,10 +75,9 @@ void compute_means(int sat[10][2], int& mathAvg, int& verbAvg)
     int verbScoreSum = 0;
     int verbCount = 0;
     
-    //calculates the averages of both scores
     for(int i = 0; i<10; i++)    
     {
-        for(int j = 0; i<2; j++)
+        for(int j = 0; j<2; j++)
         {
             if(j==0){
                 mathScoreSum += sat[i][j];
@@ -110,14 +94,7 @@ void compute_means(int sat[10][2], int& mathAvg, int& verbAvg)
     verbAvg = verbScoreSum / verbCount;
 }
 
-/**
- * 
- * @param sat
- * @param mathAvg
- * @param verbAvg
- * @param mathStd
- * @param verbStd
- */
+
 void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, double& verbStd) 
 {
     double mathVariance = 0;
@@ -125,72 +102,82 @@ void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, doubl
     
     for(int i = 0; i<10; i++)    
     {
-        for(int j = 0; i<2; j++)
+        for(int j = 0; j<2; j++)
         {
               
             if(j==0){
-                //mathVariance += pow((sat[i][j] - mathAvg), 2);
+                mathVariance += ::pow((sat[i][j] - mathAvg), 2);
             }
             
             else{
-                //verbVariance += pow((sat[i][j] - mathAvg), 2);
+                verbVariance += ::pow((sat[i][j] - mathAvg), 2);
             }
             
             mathStd = sqrt(mathVariance/9);
             verbStd = sqrt(verbVariance/9);
-            
-            //testing to see if it works
-            cout<<mathStd<<endl<<verbStd;
         }
     }
 }
 
-/**
- * 
- * @param sat
- * @param mathAvg
- * @param verbAvg
- * @param mathStd
- * @param verbstd
- */
-void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd, double verbstd)
-{
-    ofstream file;
-    file.open("scores.txt");
-    file.close();
+
+void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd, double verbStd)
+{ 
+    cout<<fixed<<showpoint<<setprecision(1);
+    cout<<setw(13)<<"MATH"<<setw(13)<<"VERBAL"<<endl;
+    for(int i = 0; i<10;i++)
+    {
+        for(int j = 0; j<2;j++)
+        {
+            if(j==0){
+                cout<<setw(13)<<sat[i][j];
+            }else{
+                cout<<setw(13)<<sat[i][j]<<endl;
+            }
+        }
+    }
+    cout<<"MEAN"<<setw(9)<<mathAvg<<setw(13)<<verbAvg<<endl;
+    cout<<"STD"<<setw(10)<<mathStd<<setw(13)<<verbStd;
     
-    /*outs>>"Table of SAT Scores:\n";
-    outs>>"Math   Verbal\n";
     
-    //Displays the variables inside sat array
-    outs>>
-            for(int i = 0; sizeof(sat); i++)    
-            {
-                for(int j = 0; sizeof(sat); j++)
-                {
-                    
-                }
-            }*/
+    
+    ofstream outs;
+    outs.open("scores.txt",ios::app);
+    
+    outs<<fixed<<showpoint<<setprecision(1);
+    outs<<setw(13)<<"MATH"<<setw(13)<<"VERBAL"<<endl;
+    for(int i = 0; i<10;i++)
+    {
+        for(int j = 0; j<2;j++)
+        {
+            if(j==0){
+                outs<<setw(13)<<sat[i][j];
+            }else{
+                outs<<setw(13)<<sat[i][j]<<endl;
+            }
+        }
+    }
+    outs<<"MEAN"<<setw(9)<<mathAvg<<setw(13)<<verbAvg<<endl;
+    outs<<"STD"<<setw(10)<<mathStd<<setw(13)<<verbStd<<endl;
+    outs.close(); 
 }
 
-/**
- * 
- * @return Bool variable
- */
 bool again()
 {
     char response;
     
     cout<<endl<<"Do you wish to run this program again (Y or N)?"<<endl;
-    cin>>response;
+    cin>>response;     
+        
+    while((response!= 'N') && (response!= 'Y') && (response!= 'y') &&
+          (response!= 'n')){
+        cout<<"Please enter a valid response";
+        cin>>response;
+    }
+    
     response = toupper(response);
-
-    while((response!='Y') || (response!= 'N'))
-        cout<<"Illegal response! Answer Y for Yes, N for No.\n";
-       
+    
     if(response == 'Y')
         return true;
     else
         return false;    
 }
-
