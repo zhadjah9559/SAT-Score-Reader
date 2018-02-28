@@ -3,12 +3,13 @@
  Junior Year                       Data Structures/ Algorithm Analysis
   
  This program reads the scores of 10 students SAT scores. 
- 
+ * read_scores() will ask the user to input 10 Math and Verbal scores
  * compute_means() will compute the averages of all ten tests for both subjects
  * compute_std() will compute the standard deviation of all ten tests for both 
    subjects
  * show_results() will display the results to the user in a tabular format and 
    then send the scores to the scores.txt file. 
+ * again() will ask the user if they want to redo the program
  =============================================================================*/
 #include <cstdlib>
 #include <iostream>
@@ -20,6 +21,13 @@
 
 using namespace std;
 
+void describe_program();
+void read_scores(int sat[10][2]);
+void compute_means(int sat[10][2], int& mathAvg, int& verbAvg);
+void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, double& verbStd) ;
+void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd,  double verbstd);
+bool again();
+
 /**
  * 
  * @return 0
@@ -27,24 +35,18 @@ using namespace std;
 int main() 
 {
     int sat[10][2], mathAvg, verbAvg;
-    double mathStd, verbStd;
-    
-    void describe_program();
-    void read_scores(int sat[10][2]);
-    void compute_means(int sat[10][2], int& mathAvg, int& verbAvg);
-    void compute_std(int sat[10][2],int mathAvg, int verbAvg, double& mathStd, double& verbStd) ;
-    void show_results(int sat[10][2], int mathAvg, int verbAvg, double mathStd,  double verbstd);
-    bool again();
+    double mathStd, verbStd;    
 
     describe_program();
     
     do
     {
-    read_scores(sat);
-    compute_means(sat, mathAvg, verbAvg);
-    compute_std(sat, mathAvg, verbAvg,  mathStd, verbStd);
-    show_results(sat, mathAvg, verbAvg, mathStd, verbStd);
+        read_scores(sat);
+        compute_means(sat, mathAvg, verbAvg);
+        compute_std(sat, mathAvg, verbAvg,  mathStd, verbStd);
+        show_results(sat, mathAvg, verbAvg, mathStd, verbStd);
     }while(again());
+    
     return 0;
 }
 
@@ -54,11 +56,11 @@ int main()
 void describe_program()
 {
     cout<<"This program reads SAT scores from 10 students (Math and verbal scores)"
-        <<" and allocates the scores as elements inside a two dimensional array."
-        <<endl<<"The program will then calculate the mean Math SAT score, the mean "
-        <<"Verbal SAT score, and the standard deviation for both subjects."<<endl<<
+        " and allocates the scores as elements inside a two dimensional array. \n"
+        "The program will then calculate the mean Math SAT score, the mean "
+        "Verbal SAT score, and the standard deviation for both subjects. \n"
         "The results will be sent to the user in a tabular format and will then "
-        <<"be sent to text file."<<endl; 
+        "be sent to text file. \n"; 
 }
 
 /**
@@ -212,8 +214,5 @@ bool again()
     
     response = toupper(response);
     
-    if(response == 'Y')
-        return true;
-    else
-        return false;    
+    return response == 'Y';
 }
